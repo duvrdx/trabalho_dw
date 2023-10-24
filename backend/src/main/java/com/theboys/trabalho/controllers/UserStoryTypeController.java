@@ -1,11 +1,12 @@
 package com.theboys.trabalho.controllers;
 
 import com.theboys.trabalho.dto.EpicDTO;
+import com.theboys.trabalho.dto.UserStoryTypeDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.UserStoryType;
-
 import com.theboys.trabalho.services.EpicService;
+import com.theboys.trabalho.services.UserStoryTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/epic")
-public class EpicController{
+@RequestMapping("/api/v1/userstorytype")
+public class UserStoryTypeController {
     @Autowired
-    private EpicService service;
+    private UserStoryTypeService service;
 
     @GetMapping()
-    public ResponseEntity<List<Epic>> findAll(){
+    public ResponseEntity<List<UserStoryType>> findAll(){
         try {
             return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         }catch (Exception e){
@@ -30,7 +31,7 @@ public class EpicController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Epic> getById(@PathVariable UUID id){
+    public ResponseEntity<UserStoryType> getById(@PathVariable UUID id){
         try {
             return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
         }catch (EpicNotFoundException e){
@@ -42,18 +43,18 @@ public class EpicController{
     }
 
     @PostMapping("/")
-    public ResponseEntity<Epic> create(@RequestBody EpicDTO epicDTO){
+    public ResponseEntity<UserStoryType> create(@RequestBody UserStoryTypeDTO userStoryTypeDTO){
         try {
-            return new ResponseEntity<>(service.create(epicDTO.build()), HttpStatus.CREATED);
+            return new ResponseEntity<>(service.create(userStoryTypeDTO.build()), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}/")
-    public ResponseEntity<Epic> update(@PathVariable UUID id, @RequestBody EpicDTO epicDTO){
+    public ResponseEntity<UserStoryType> update(@PathVariable UUID id, @RequestBody UserStoryTypeDTO userStoryTypeDTO){
         try {
-            return new ResponseEntity<>(service.update(id, epicDTO.build()), HttpStatus.OK);
+            return new ResponseEntity<>(service.update(id, userStoryTypeDTO.build()), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -63,23 +64,11 @@ public class EpicController{
     }
 
     @DeleteMapping("/{id}/")
-    public ResponseEntity<EpicDTO> deleteById(@PathVariable UUID id){
+    public ResponseEntity<UserStoryTypeDTO> deleteById(@PathVariable UUID id){
         try {
-            EpicDTO epicDTO = new EpicDTO(service.findById(id));
+            UserStoryTypeDTO userStoryTypeDTO = new UserStoryTypeDTO(service.findById(id));
             service.delete(id);
-            return new ResponseEntity<>(epicDTO, HttpStatus.OK);
-        }catch (EpicNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/{epicId}/addUserStoryType/{userStoryTypeId}")
-    public ResponseEntity<UserStoryType> addUserStoryType(@PathVariable UUID epicId, @PathVariable UUID userStoryTypeId){
-        try {
-            return new ResponseEntity<>(service.addUserStoryType(epicId, userStoryTypeId), HttpStatus.OK);
+            return new ResponseEntity<>(userStoryTypeDTO , HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

@@ -11,9 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EntityScan("com.theboys.trabalho.models")
 @OpenAPIDefinition(info = @Info(
-		title = "Atividade - Eduardo Henrique",
+		title = "Trabalho de Desenvolvimento WEB",
 		version = "1.0",
-		description = "CRUD de Produtos"))
+		description = "Eduardo, Lucas, Victor e Wallace"))
 public class TrabalhoApplication {
 
 	public static void main(String[] args) {

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -12,15 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 public class UserStoryTypeDTO{
     private String name;
-    private List<TaskType> defaultTasks;
 
     public UserStoryTypeDTO(UserStoryType userStoryType){
         name = userStoryType.getName();
-        defaultTasks = userStoryType.getDefaultTasks();
     }
 
     public UserStoryType build(){
         return new UserStoryType().setName(name)
-                .setDefaultTasks(defaultTasks);
+                .setDefaultTasks(new ArrayList<TaskType>());
     }
 }
