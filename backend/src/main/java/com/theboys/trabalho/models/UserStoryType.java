@@ -19,5 +19,5 @@ public class UserStoryType {
     private String name;
 
     @OneToMany
-    private List<TaskType> defaultTasks;
+    private List<String> defaultTasks;
 }

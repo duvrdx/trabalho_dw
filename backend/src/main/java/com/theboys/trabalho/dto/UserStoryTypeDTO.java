@@ -20,6 +20,6 @@ public class UserStoryTypeDTO{
 
     public UserStoryType build(){
         return new UserStoryType().setName(name)
-                .setDefaultTasks(new ArrayList<TaskType>());
+                .setDefaultTasks(new ArrayList<String>());
     }
 }
