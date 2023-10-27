@@ -2,7 +2,7 @@ package com.theboys.trabalho.services;
 
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.models.UserStoryType;
+import com.theboys.trabalho.models.EpicType;
 import com.theboys.trabalho.repositories.EpicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class EpicService{
+public class EpicService {
 
     @Autowired
     private EpicRepository repository;
 
     @Autowired
-    private UserStoryTypeService userStoryTypeService;
+    private EpicTypeService epicTypeService;
 
     public Epic create(Epic epic){
         repository.save(epic);
@@ -47,14 +47,16 @@ public class EpicService{
         repository.deleteById(id);
     }
 
-    public UserStoryType addUserStoryType(UUID userId, UUID userStoryTypeId){
+    public EpicType addUserStoryType(UUID userId, UUID epicTypeId){
         Epic epic = this.findById(userId);
-        UserStoryType userStoryType = userStoryTypeService.findById(userStoryTypeId);
+        EpicType epicType = epicTypeService.findById(epicTypeId);
 
-        epic.setUserStoryType(userStoryType);
+        epic.setEpicType(epicType);
         repository.save(epic);
 
 //        # TODO - Adicionar funcionalidade de já gerar
-        return userStoryType;
+        return epicType;
     }
+
+
 }

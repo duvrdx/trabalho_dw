@@ -1,25 +1,20 @@
 package com.theboys.trabalho.models;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
-import java.util.List;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
 @Data
-@Accessors(chain = true)
-public class UserStory {
+public class UserStory{
     @Id
-    @GeneratedValue
-    private UUID id; // Utilizando UUID como identificador
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String name;
+    private Integer relevance;
 
     @ManyToOne
-    private Epic epic;
-
-    @OneToMany(mappedBy = "userStory")
-    private List<Task> tasks;
+    private UserStoryType userStoryType;
 }

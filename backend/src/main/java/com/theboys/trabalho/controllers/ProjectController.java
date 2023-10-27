@@ -1,12 +1,13 @@
 package com.theboys.trabalho.controllers;
 
 import com.theboys.trabalho.dto.EpicDTO;
-import com.theboys.trabalho.dto.UserStoryTypeDTO;
+import com.theboys.trabalho.dto.ProjectDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.models.UserStoryType;
+import com.theboys.trabalho.models.EpicType;
+import com.theboys.trabalho.models.Project;
 import com.theboys.trabalho.services.EpicService;
-import com.theboys.trabalho.services.UserStoryTypeService;
+import com.theboys.trabalho.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/userstorytype")
-public class UserStoryTypeController {
+@RequestMapping("/api/v1/project")
+public class ProjectController{
     @Autowired
-    private UserStoryTypeService service;
+    private ProjectService service;
 
     @GetMapping()
-    public ResponseEntity<List<UserStoryType>> findAll(){
+    public ResponseEntity<List<Project>> findAll(){
         try {
             return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         }catch (Exception e){
@@ -31,7 +32,7 @@ public class UserStoryTypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserStoryType> getById(@PathVariable UUID id){
+    public ResponseEntity<Project> getById(@PathVariable UUID id){
         try {
             return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
         }catch (EpicNotFoundException e){
@@ -43,18 +44,18 @@ public class UserStoryTypeController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserStoryType> create(@RequestBody UserStoryTypeDTO userStoryTypeDTO){
+    public ResponseEntity<Project> create(@RequestBody ProjectDTO projectDTO){
         try {
-            return new ResponseEntity<>(service.create(userStoryTypeDTO.build()), HttpStatus.CREATED);
+            return new ResponseEntity<>(service.create(projectDTO.build()), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}/")
-    public ResponseEntity<UserStoryType> update(@PathVariable UUID id, @RequestBody UserStoryTypeDTO userStoryTypeDTO){
+    public ResponseEntity<Project> update(@PathVariable UUID id, @RequestBody ProjectDTO projectDTO){
         try {
-            return new ResponseEntity<>(service.update(id, userStoryTypeDTO.build()), HttpStatus.OK);
+            return new ResponseEntity<>(service.update(id, projectDTO.build()), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -64,11 +65,23 @@ public class UserStoryTypeController {
     }
 
     @DeleteMapping("/{id}/")
-    public ResponseEntity<UserStoryTypeDTO> deleteById(@PathVariable UUID id){
+    public ResponseEntity<ProjectDTO> deleteById(@PathVariable UUID id){
         try {
-            UserStoryTypeDTO userStoryTypeDTO = new UserStoryTypeDTO(service.findById(id));
+            ProjectDTO projectDTO = new ProjectDTO(service.findById(id));
             service.delete(id);
-            return new ResponseEntity<>(userStoryTypeDTO , HttpStatus.OK);
+            return new ResponseEntity<>(projectDTO, HttpStatus.OK);
+        }catch (EpicNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{projectId}/addEpic/{epicTypeId}")
+    public ResponseEntity<Epic> addUserStoryType(@PathVariable UUID projectId, @PathVariable UUID epicId){
+        try {
+            return new ResponseEntity<>(service.addEpic(projectId, epicId), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

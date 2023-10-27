@@ -1,9 +1,8 @@
 package com.theboys.trabalho.services;
 
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
-import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.repositories.UserStoryTypeRepository;
 import com.theboys.trabalho.models.UserStoryType;
+import com.theboys.trabalho.repositories.UserStoryTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class UserStoryTypeService{
 
     public UserStoryType update(UUID id, UserStoryType newUserStoryType){
         UserStoryType outdatedUserStoryType = findById(id);
-        outdatedUserStoryType.setName(newUserStoryType.getName());
+        outdatedUserStoryType.setDescription(newUserStoryType.getDescription());
         repository.save(outdatedUserStoryType);
 
         return newUserStoryType;

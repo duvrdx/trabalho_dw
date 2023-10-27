@@ -7,17 +7,15 @@ import lombok.experimental.Accessors;
 import java.util.List;
 import java.util.UUID;
 
-
-@Data
 @Entity
+@Data
 @Accessors(chain = true)
-public class UserStoryType {
+public class UserStoryType{
     @Id
-    @GeneratedValue
-    private UUID id; // Utilizando UUID como identificador
-
-    private String name;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    private String description;
 
     @OneToMany
-    private List<String> defaultTasks;
+    private List<TaskType> taskType;
 }
