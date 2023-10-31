@@ -14,15 +14,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EpicDTO{
-    private String name;
+    private String description;
+    private String title;
     private Integer relevance;
+    private EpicType epicType;
 
     public EpicDTO(Epic epic){
-        this.name = epic.getName();
+        this.description = epic.getDescription();
         this.relevance = epic.getRelevance();;
     }
 
     public Epic build(){
-        return new Epic().setName(name).setRelevance(relevance);
+        return new Epic()
+                .setDescription(description)
+                .setRelevance(relevance)
+                .setTitle(title)
+                .setEpicType(epicType);
     }
 }
