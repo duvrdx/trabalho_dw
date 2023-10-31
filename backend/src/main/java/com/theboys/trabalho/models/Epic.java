@@ -1,23 +1,27 @@
 package com.theboys.trabalho.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
 @Accessors(chain = true)
 public class Epic{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String name;
+    private String description;
+    private String title;
     private Integer relevance;
+
+    @OneToMany
+    private List<UserStory> userStoryList;
 
     @ManyToOne
     private EpicType epicType;

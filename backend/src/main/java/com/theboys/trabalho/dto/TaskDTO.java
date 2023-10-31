@@ -18,7 +18,6 @@ public class TaskDTO {
     }
 
     public Task build(){
-        return new Task();
-        //Não consegui seguir o padrão de setDescription()
+        return new Task().setDescription(description);
     }
 }

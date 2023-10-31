@@ -37,7 +37,7 @@ public class EpicService {
 
     public Epic update(UUID id, Epic newEpic){
         Epic outdatedEpic = findById(id);
-        outdatedEpic.setName(newEpic.getName());
+        outdatedEpic.setDescription(newEpic.getDescription());
         repository.save(outdatedEpic);
 
         return newEpic;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,10 @@ public class UserStoryType{
     private UUID id;
     private String description;
 
+    @ManyToOne
+    private EpicType epicType;
+
     @OneToMany
-    private List<TaskType> taskType;
+    //(mappedBy = "userStoryType")
+    private List<TaskType> taskTypeList;
 }
