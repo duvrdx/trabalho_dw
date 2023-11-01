@@ -8,6 +8,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Accessors(chain = true)
+@Table(name="task_type")
 public class TaskType{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +17,7 @@ public class TaskType{
     private String description;
 
     @ManyToOne
+    @JoinColumn(name="user_story_type.id")
     private UserStoryType userStoryType;
 
 }

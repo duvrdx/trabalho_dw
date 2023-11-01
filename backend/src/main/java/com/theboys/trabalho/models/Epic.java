@@ -11,7 +11,6 @@ import java.util.UUID;
 @Data
 @Accessors(chain = true)
 public class Epic{
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -20,9 +19,22 @@ public class Epic{
     private String title;
     private Integer relevance;
 
-    @OneToMany
+    @Enumerated(EnumType.STRING)
+    private UserStoryCategory category;
+
+    @OneToMany(mappedBy = "epic")
     private List<UserStory> userStoryList;
 
     @ManyToOne
     private EpicType epicType;
+
+    @ManyToOne
+    @JoinColumn(name="project.id")
+    private Project project;
+
+    @ManyToMany
+    @JoinTable(name = "epic_dependencies",
+            joinColumns = @JoinColumn(name = "epic_id"),
+            inverseJoinColumns = @JoinColumn(name = "dependency_id"))
+    private List<Epic> depends;
 }

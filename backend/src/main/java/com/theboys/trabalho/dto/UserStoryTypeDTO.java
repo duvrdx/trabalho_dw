@@ -19,14 +19,14 @@ public class UserStoryTypeDTO {
 
     public UserStoryTypeDTO(UserStoryType userStoryType){
         this.description = userStoryType.getDescription();
-        this.taskTypeList = userStoryType.getTaskTypeList();
+//        this.taskTypeList = userStoryType.getTaskTypeList();
         this.epicType = userStoryType.getEpicType();
     }
 
     public UserStoryType build(){
         return new UserStoryType()
                 .setDescription(description)
-                .setTaskTypeList(taskTypeList)
+//                .setTaskTypeList(taskTypeList)
                 .setEpicType(epicType);
     }
 }

@@ -10,12 +10,13 @@ import java.util.UUID;
 @Entity
 @Data
 @Accessors(chain = true)
+@Table(name="epic_type")
 public class EpicType{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "epicType")
     private List<UserStoryType> userStoryType;
 }

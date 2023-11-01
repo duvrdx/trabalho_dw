@@ -11,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Accessors(chain = true)
+@Table(name="user_story_type")
 public class UserStoryType{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +19,9 @@ public class UserStoryType{
     private String description;
 
     @ManyToOne
+    @JoinColumn(name="epic_type.id")
     private EpicType epicType;
 
-    @OneToMany
-    //(mappedBy = "userStoryType")
+    @OneToMany(mappedBy = "userStoryType")
     private List<TaskType> taskTypeList;
 }

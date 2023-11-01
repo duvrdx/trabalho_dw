@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -26,4 +27,10 @@ public class Task{
 
     @ManyToOne
     private TaskType taskType;
+
+    @ManyToMany
+    @JoinTable(name = "task_dependencies",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "dependency_id"))
+    private List<Task> depends;
 }

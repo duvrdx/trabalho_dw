@@ -20,7 +20,10 @@ public class UserStory{
     private String description;
     private Integer relevance;
 
-    @OneToMany
+    @Enumerated(EnumType.STRING)
+    private UserStoryCategory category;
+
+    @OneToMany(mappedBy = "userStory")
     private List<Task> tasks;
 
     @ManyToOne
@@ -28,4 +31,10 @@ public class UserStory{
 
     @ManyToOne
     private UserStoryType userStoryType;
+
+    @ManyToMany
+    @JoinTable(name = "us_dependencies",
+            joinColumns = @JoinColumn(name = "us_id"),
+            inverseJoinColumns = @JoinColumn(name = "dependency_id"))
+    private List<UserStory> depends;
 }
