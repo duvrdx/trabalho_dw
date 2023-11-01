@@ -6,19 +6,29 @@ import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.EpicType;
 import com.theboys.trabalho.models.UserStoryType;
 import com.theboys.trabalho.services.EpicService;
+import com.theboys.trabalho.services.EpicTypeService;
+import com.theboys.trabalho.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/epic")
 public class EpicController{
     @Autowired
     private EpicService service;
+
+    @Autowired
+    private EpicTypeService epicTypeService;
+    @Autowired
+    private ProjectService projectService;
+
 
     @GetMapping()
     public ResponseEntity<List<Epic>> findAll(){
@@ -44,8 +54,12 @@ public class EpicController{
     @PostMapping("/")
     public ResponseEntity<Epic> create(@RequestBody EpicDTO epicDTO){
         try {
+            epicDTO.setEpicTypeService(epicTypeService);
+            epicDTO.setProjectService(projectService);
+            epicDTO.setEpicService(service);
             return new ResponseEntity<>(service.create(epicDTO.build()), HttpStatus.CREATED);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -53,6 +67,9 @@ public class EpicController{
     @PutMapping("/{id}/")
     public ResponseEntity<Epic> update(@PathVariable UUID id, @RequestBody EpicDTO epicDTO){
         try {
+            epicDTO.setEpicTypeService(epicTypeService);
+            epicDTO.setProjectService(projectService);
+            epicDTO.setEpicService(service);
             return new ResponseEntity<>(service.update(id, epicDTO.build()), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -68,18 +85,6 @@ public class EpicController{
             EpicDTO epicDTO = new EpicDTO(service.findById(id));
             service.delete(id);
             return new ResponseEntity<>(epicDTO, HttpStatus.OK);
-        }catch (EpicNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/{epicId}/addType/{epicTypeId}")
-    public ResponseEntity<EpicType> addUserStoryType(@PathVariable UUID epicId, @PathVariable UUID epicTypeId){
-        try {
-            return new ResponseEntity<>(service.addUserStoryType(epicId, epicTypeId), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

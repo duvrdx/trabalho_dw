@@ -1,5 +1,7 @@
 package com.theboys.trabalho.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -10,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Accessors(chain = true)
-public class Epic{
+public class Epic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -20,21 +22,26 @@ public class Epic{
     private Integer relevance;
 
     @Enumerated(EnumType.STRING)
-    private UserStoryCategory category;
+    private EpicCategory category;
 
     @OneToMany(mappedBy = "epic")
-    private List<UserStory> userStoryList;
+    @JsonBackReference
+    private List<UserStory> userStories;
 
     @ManyToOne
+    @JoinColumn(name = "epic_type_id")
+    @JsonManagedReference
     private EpicType epicType;
 
     @ManyToOne
-    @JoinColumn(name="project.id")
+    @JoinColumn(name = "project_id")
+    @JsonManagedReference
     private Project project;
 
     @ManyToMany
     @JoinTable(name = "epic_dependencies",
             joinColumns = @JoinColumn(name = "epic_id"),
             inverseJoinColumns = @JoinColumn(name = "dependency_id"))
+    @JsonManagedReference
     private List<Epic> depends;
 }

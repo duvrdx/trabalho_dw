@@ -1,5 +1,7 @@
 package com.theboys.trabalho.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import jakarta.persistence.*;
@@ -11,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Accessors(chain = true)
-public class UserStory{
+public class UserStory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -24,17 +26,23 @@ public class UserStory{
     private UserStoryCategory category;
 
     @OneToMany(mappedBy = "userStory")
+    @JsonBackReference
     private List<Task> tasks;
 
     @ManyToOne
+    @JoinColumn(name = "epic_id")
+    @JsonManagedReference
     private Epic epic;
 
     @ManyToOne
+    @JoinColumn(name = "user_story_type_id")
+    @JsonManagedReference
     private UserStoryType userStoryType;
 
     @ManyToMany
     @JoinTable(name = "us_dependencies",
             joinColumns = @JoinColumn(name = "us_id"),
             inverseJoinColumns = @JoinColumn(name = "dependency_id"))
+    @JsonManagedReference
     private List<UserStory> depends;
 }

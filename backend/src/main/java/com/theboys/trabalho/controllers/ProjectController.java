@@ -78,7 +78,7 @@ public class ProjectController{
         }
     }
 
-    @PutMapping("/{projectId}/addEpic/{epicTypeId}")
+    @PutMapping("/{projectId}/addEpic/{epicId}")
     public ResponseEntity<Epic> addUserStoryType(@PathVariable UUID projectId, @PathVariable UUID epicId){
         try {
             return new ResponseEntity<>(service.addEpic(projectId, epicId), HttpStatus.OK);
