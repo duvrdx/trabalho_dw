@@ -37,6 +37,7 @@ public class EpicService {
 
     public Epic update(UUID id, Epic newEpic){
         Epic outdatedEpic = findById(id);
+        if(newEpic.getDepends().contains(outdatedEpic)) throw new RuntimeException("Self dependency is not allowed");
         outdatedEpic.setDescription(newEpic.getDescription());
         repository.save(outdatedEpic);
 

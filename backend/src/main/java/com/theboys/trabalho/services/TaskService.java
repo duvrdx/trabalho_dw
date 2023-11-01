@@ -35,9 +35,10 @@ public class TaskService {
     }
 
     public Task update(UUID id, Task newTask){
-        Task outDatedTask = findById(id);
-        outDatedTask.setDescription(newTask.getDescription());
-        repository.save(outDatedTask);
+        Task outdatedTask = findById(id);
+        if(newTask.getDepends().contains(outdatedTask)) throw new RuntimeException("Self dependency is not allowed");
+        outdatedTask.setDescription(newTask.getDescription());
+        repository.save(outdatedTask);
 
         return newTask;
     }
