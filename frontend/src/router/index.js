@@ -15,9 +15,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
       {
-        path: '/epic/type',
-        name: 'epictype',
-        component: () => import('@/views/EpicType.vue'),
+        path: '/epic',
+        name: 'epic',
+        component: () => import('@/views/Epic.vue'),
       },
     ],
   },
