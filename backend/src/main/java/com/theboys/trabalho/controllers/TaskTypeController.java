@@ -5,8 +5,10 @@ import com.theboys.trabalho.dto.TaskTypeDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.EpicType;
 import com.theboys.trabalho.models.TaskType;
+import com.theboys.trabalho.models.UserStoryType;
 import com.theboys.trabalho.services.EpicTypeService;
 import com.theboys.trabalho.services.TaskTypeService;
+import com.theboys.trabalho.services.UserStoryTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import java.util.UUID;
 public class TaskTypeController {
     @Autowired
     private TaskTypeService service;
+
+    @Autowired
+    private UserStoryTypeService usTypeService;
 
     @GetMapping()
     public ResponseEntity<List<TaskType>> findAll(){
@@ -45,6 +50,7 @@ public class TaskTypeController {
     @PostMapping("/")
     public ResponseEntity<TaskType> create(@RequestBody TaskTypeDTO taskTypeDTO){
         try {
+            taskTypeDTO.setUsTypeService(usTypeService);
             return new ResponseEntity<>(service.create(taskTypeDTO.build()), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -54,6 +60,7 @@ public class TaskTypeController {
     @PutMapping("/{id}/")
     public ResponseEntity<TaskType> update(@PathVariable UUID id, @RequestBody TaskTypeDTO taskTypeDTO){
         try {
+            taskTypeDTO.setUsTypeService(usTypeService);
             return new ResponseEntity<>(service.update(id, taskTypeDTO.build()), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

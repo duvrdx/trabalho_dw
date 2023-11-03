@@ -1,11 +1,13 @@
 package com.theboys.trabalho.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.Task;
 import com.theboys.trabalho.models.UserStory;
 import com.theboys.trabalho.models.UserStoryType;
+import com.theboys.trabalho.services.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,22 +20,27 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserStoryDTO {
+    @JsonIgnore
+    private UserStoryTypeService usTypeService;
+    @JsonIgnore
+    private UserStoryService usService;
+    @JsonIgnore
+    private EpicService epicService;
 
+    @JsonIgnore
     private UUID id;
     private String description;
     private String title;
     private Integer relevance;
-    private Epic epic;
-    private UserStoryType userStoryType;
-    private List<Task> taskList;
+    private UUID epicId;
+    private UUID userStoryTypeId;
 
     public UserStoryDTO(UserStory userStory){
         this.description = userStory.getDescription();
         this.title = userStory.getTitle();
         this.relevance = userStory.getRelevance();
-        this.epic = userStory.getEpic();
-        this.userStoryType = userStory.getUserStoryType();
-        this.taskList = userStory.getTasks();
+        this.epicId = userStory.getEpic().getId();
+        this.userStoryTypeId = userStory.getUserStoryType().getId();
         this.id = userStory.getId();
     }
 
@@ -42,8 +49,7 @@ public class UserStoryDTO {
                 .setDescription(description)
                 .setTitle(title)
                 .setRelevance(relevance)
-                .setEpic(epic)
-                .setUserStoryType(userStoryType)
-                .setTasks(taskList);
+                .setEpic(epicService.findById(epicId))
+                .setUserStoryType(usTypeService.findById(userStoryTypeId));
     }
 }

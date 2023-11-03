@@ -53,11 +53,12 @@ public class EpicDTO{
         this.title = epic.getTitle();
         this.epicTypeId = epic.getEpicType().getId();
         this.projectId = epic.getProject().getId();
-
         this.dependencies = new ArrayList<UUID>();
 
-        for(Epic e: epic.getDepends()){
-            this.dependencies.add(e.getId());
+        if(!epic.getDepends().isEmpty()){
+            for(Epic e: epic.getDepends()){
+                this.dependencies.add(e.getId());
+            }
         }
         this.id = epic.getId();
     }
@@ -65,9 +66,12 @@ public class EpicDTO{
     public Epic build(){
         List<Epic> dependencies = new ArrayList<Epic>();
 
-        for(UUID id: this.dependencies){
-            dependencies.add(epicService.findById(id));
+        if(this.dependencies != null){
+            for(UUID id: this.dependencies){
+                dependencies.add(epicService.findById(id));
+            }
         }
+
         return new Epic()
                 .setDescription(description)
                 .setRelevance(relevance)

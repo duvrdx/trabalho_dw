@@ -3,6 +3,7 @@ package com.theboys.trabalho.controllers;
 import com.theboys.trabalho.dto.UserStoryTypeDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.UserStoryType;
+import com.theboys.trabalho.services.EpicTypeService;
 import com.theboys.trabalho.services.UserStoryTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/userStoryType")
-public class UserStoryTypeController {
+public class UserStoryTypeController{
     @Autowired
     private UserStoryTypeService service;
+
+    @Autowired
+    private EpicTypeService epicTypeService;
+
 
     @GetMapping()
     public ResponseEntity<List<UserStoryType>> findAll(){
@@ -42,6 +47,7 @@ public class UserStoryTypeController {
     @PostMapping("/")
     public ResponseEntity<UserStoryType> create(@RequestBody UserStoryTypeDTO userStoryTypeDTO){
         try {
+            userStoryTypeDTO.setEpicTypeService(epicTypeService);
             return new ResponseEntity<>(service.create(userStoryTypeDTO.build()), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -51,6 +57,7 @@ public class UserStoryTypeController {
     @PutMapping("/{id}/")
     public ResponseEntity<UserStoryType> update(@PathVariable UUID id, @RequestBody UserStoryTypeDTO userStoryTypeDTO){
         try {
+            userStoryTypeDTO.setEpicTypeService(epicTypeService);
             return new ResponseEntity<>(service.update(id, userStoryTypeDTO.build()), HttpStatus.OK);
         }catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
