@@ -1,6 +1,7 @@
 package com.theboys.trabalho.models.type;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.theboys.trabalho.models.UserStory;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class UserStoryType {
 
     @ManyToOne
     @JoinColumn(name="epic_type_id")
-    @JsonBackReference
+    @JsonManagedReference
     private EpicType epicType;
 
     @OneToMany(mappedBy = "userStoryType")

@@ -19,7 +19,7 @@ public class TaskTypeDTO {
     @JsonIgnore
     private UserStoryTypeService usTypeService;
 
-    @JsonIgnore
+//    @JsonIgnore
     private UUID id;
     private String description;
     private UUID userStoryTypeId;

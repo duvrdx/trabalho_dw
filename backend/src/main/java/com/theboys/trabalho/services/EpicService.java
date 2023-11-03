@@ -2,11 +2,19 @@ package com.theboys.trabalho.services;
 
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
+import com.theboys.trabalho.models.Task;
+import com.theboys.trabalho.models.UserStory;
 import com.theboys.trabalho.models.type.EpicType;
+import com.theboys.trabalho.models.type.TaskType;
+import com.theboys.trabalho.models.type.UserStoryType;
 import com.theboys.trabalho.repositories.EpicRepository;
 import com.theboys.trabalho.services.type.EpicTypeService;
+import com.theboys.trabalho.services.type.TaskTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +27,12 @@ public class EpicService {
 
     @Autowired
     private EpicTypeService epicTypeService;
+
+    @Autowired
+    private UserStoryService usService;
+
+    @Autowired
+    private TaskService taskService;
 
     public Epic create(Epic epic){
         repository.save(epic);
@@ -49,16 +63,53 @@ public class EpicService {
         repository.deleteById(id);
     }
 
-    public EpicType addUserStoryType(UUID userId, UUID epicTypeId){
-        Epic epic = this.findById(userId);
-        EpicType epicType = epicTypeService.findById(epicTypeId);
+    public void generateUserStory(UUID id){
+        Epic epic = this.findById(id);
+        List<UserStoryType> userStoryTypes = epic.getEpicType().getUserStoryTypeList();
 
-        epic.setEpicType(epicType);
-        repository.save(epic);
+        Pattern pattern = Pattern.compile("como\\s+([^,\\s]+)");
+        Matcher matcher = pattern.matcher(epic.getDescription());
+        String[] palavras = epic.getDescription().split("\\s+");
 
-//        # TODO - Adicionar funcionalidade de já gerar
-        return epicType;
+        String actor = "Ator";
+        String defaultTask;
+        String action;
+        String item;
+
+        if (matcher.find()){ actor = matcher.group(1);}
+        item = palavras[palavras.length - 1];
+
+        for(UserStoryType usType: userStoryTypes) {
+            UserStory userStory = new UserStory();
+
+            action = usType.getDescription().toLowerCase();
+
+            userStory
+                    .setEpic(epic)
+                    .setUserStoryType(usType)
+                    .setRelevance(epic.getRelevance())
+                    .setTitle(epic.getTitle())
+                    .setDescription(String.format("Eu, como %s, quero %s um %s", actor, action, item));
+
+
+            usService.create(userStory);
+
+            System.out.println(usType.getTaskTypeList().size());
+
+            for(TaskType taskType: usType.getTaskTypeList()){
+                Task task = new Task();
+                defaultTask = taskType.getDescription();
+
+                task.setUserStory(userStory)
+                        .setDescription(String.format("%s %s", defaultTask, item))
+                        .setTitle(epic.getTitle())
+                        .setTaskType(taskType);
+
+                taskService.create(task);
+            }
+        }
     }
+
 
 
 }

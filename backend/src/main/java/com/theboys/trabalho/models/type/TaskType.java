@@ -1,6 +1,7 @@
 package com.theboys.trabalho.models.type;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -18,6 +19,6 @@ public class TaskType {
 
     @ManyToOne
     @JoinColumn(name="user_story_type_id")
-    @JsonBackReference
+    @JsonManagedReference
     private UserStoryType userStoryType;
 }

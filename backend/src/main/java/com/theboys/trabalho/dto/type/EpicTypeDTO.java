@@ -1,6 +1,7 @@
 package com.theboys.trabalho.dto.type;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.theboys.trabalho.models.type.EpicType;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class EpicTypeDTO {
+    @JsonIgnore
     private UUID id;
     private String description;
 

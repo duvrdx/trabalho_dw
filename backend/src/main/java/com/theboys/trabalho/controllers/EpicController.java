@@ -88,4 +88,15 @@ public class EpicController{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/generate/{id}")
+    public ResponseEntity<Epic> generate(@PathVariable UUID id){
+        try {
+            service.generateUserStory(id);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
