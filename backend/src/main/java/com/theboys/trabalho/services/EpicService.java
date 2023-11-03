@@ -2,8 +2,9 @@ package com.theboys.trabalho.services;
 
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.models.EpicType;
+import com.theboys.trabalho.models.type.EpicType;
 import com.theboys.trabalho.repositories.EpicRepository;
+import com.theboys.trabalho.services.type.EpicTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

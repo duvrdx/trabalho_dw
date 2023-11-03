@@ -2,15 +2,10 @@ package com.theboys.trabalho.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.Task;
-import com.theboys.trabalho.models.TaskType;
-import com.theboys.trabalho.models.UserStory;
 import com.theboys.trabalho.services.*;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.theboys.trabalho.services.type.TaskTypeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

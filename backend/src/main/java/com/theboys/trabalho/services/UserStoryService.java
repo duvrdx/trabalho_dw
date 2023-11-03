@@ -2,9 +2,7 @@ package com.theboys.trabalho.services;
 
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.UserStory;
-import com.theboys.trabalho.models.UserStoryType;
 import com.theboys.trabalho.repositories.UserStoryRepository;
-import com.theboys.trabalho.repositories.UserStoryTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

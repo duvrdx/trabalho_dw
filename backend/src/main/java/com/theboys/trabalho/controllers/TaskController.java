@@ -1,13 +1,10 @@
 package com.theboys.trabalho.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.theboys.trabalho.dto.TaskDTO;
-import com.theboys.trabalho.dto.TaskTypeDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Task;
-import com.theboys.trabalho.models.TaskType;
 import com.theboys.trabalho.services.TaskService;
-import com.theboys.trabalho.services.TaskTypeService;
+import com.theboys.trabalho.services.type.TaskTypeService;
 import com.theboys.trabalho.services.UserStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

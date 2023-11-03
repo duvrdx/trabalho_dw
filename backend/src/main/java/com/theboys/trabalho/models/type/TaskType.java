@@ -1,4 +1,4 @@
-package com.theboys.trabalho.models;
+package com.theboys.trabalho.models.type;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

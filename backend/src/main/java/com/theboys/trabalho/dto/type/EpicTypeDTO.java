@@ -1,9 +1,8 @@
-package com.theboys.trabalho.dto;
+package com.theboys.trabalho.dto.type;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.models.EpicType;
+import com.theboys.trabalho.models.type.EpicType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

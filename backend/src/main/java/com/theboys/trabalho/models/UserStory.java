@@ -2,6 +2,8 @@ package com.theboys.trabalho.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.theboys.trabalho.models.category.UserStoryCategory;
+import com.theboys.trabalho.models.type.UserStoryType;
 import lombok.Data;
 
 import jakarta.persistence.*;

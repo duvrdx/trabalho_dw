@@ -1,14 +1,11 @@
 package com.theboys.trabalho.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.theboys.trabalho.dto.UserStoryDTO;
-import com.theboys.trabalho.dto.UserStoryTypeDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.UserStory;
-import com.theboys.trabalho.models.UserStoryType;
 import com.theboys.trabalho.services.EpicService;
 import com.theboys.trabalho.services.UserStoryService;
-import com.theboys.trabalho.services.UserStoryTypeService;
+import com.theboys.trabalho.services.type.UserStoryTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

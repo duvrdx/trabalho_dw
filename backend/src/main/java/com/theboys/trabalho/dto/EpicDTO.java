@@ -2,16 +2,13 @@ package com.theboys.trabalho.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import com.theboys.trabalho.models.*;
+import com.theboys.trabalho.models.category.EpicCategory;
 import com.theboys.trabalho.services.EpicService;
-import com.theboys.trabalho.services.EpicTypeService;
+import com.theboys.trabalho.services.type.EpicTypeService;
 import com.theboys.trabalho.services.ProjectService;
-import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;

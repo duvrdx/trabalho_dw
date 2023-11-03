@@ -1,6 +1,6 @@
-package com.theboys.trabalho.repositories;
+package com.theboys.trabalho.repositories.type;
 
-import com.theboys.trabalho.models.EpicType;
+import com.theboys.trabalho.models.type.EpicType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

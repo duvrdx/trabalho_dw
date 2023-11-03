@@ -1,7 +1,7 @@
-package com.theboys.trabalho.repositories;
+package com.theboys.trabalho.repositories.type;
 
 
-import com.theboys.trabalho.models.TaskType;
+import com.theboys.trabalho.models.type.TaskType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

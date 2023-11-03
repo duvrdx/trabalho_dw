@@ -1,12 +1,9 @@
 package com.theboys.trabalho.controllers;
 
-import com.theboys.trabalho.dto.EpicDTO;
 import com.theboys.trabalho.dto.ProjectDTO;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
-import com.theboys.trabalho.models.EpicType;
 import com.theboys.trabalho.models.Project;
-import com.theboys.trabalho.services.EpicService;
 import com.theboys.trabalho.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

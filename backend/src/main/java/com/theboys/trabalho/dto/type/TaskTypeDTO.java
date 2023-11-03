@@ -1,14 +1,10 @@
-package com.theboys.trabalho.dto;
+package com.theboys.trabalho.dto.type;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.theboys.trabalho.models.EpicType;
-import com.theboys.trabalho.models.TaskType;
-import com.theboys.trabalho.models.UserStoryType;
-import com.theboys.trabalho.services.TaskTypeService;
-import com.theboys.trabalho.services.UserStoryService;
-import com.theboys.trabalho.services.UserStoryTypeService;
+import com.theboys.trabalho.models.type.TaskType;
+import com.theboys.trabalho.services.type.UserStoryTypeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,11 @@
-package com.theboys.trabalho.models;
+package com.theboys.trabalho.models.type;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.theboys.trabalho.models.UserStory;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
