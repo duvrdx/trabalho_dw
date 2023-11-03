@@ -3,7 +3,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import TypeTable from '@/components/epic/TypeTable.vue'
 import ProjectTable from '@/components/project/Table.vue'
-import categories from '@/utils/categories'
+import epicCategories from '@/utils/epicCategories'
 import api from '@api'
 
 
@@ -131,7 +131,7 @@ onBeforeMount(async () => {
 			</v-btn>
 		    </template>
 		</v-text-field>
-		<v-select v-model='category' label='Categoria' :items='categories' clearable />
+		<v-select v-model='category' label='Categoria' :items='epicCategories' clearable />
 	    </v-card-text>
 	    <v-card-actions>
 		<v-spacer />
