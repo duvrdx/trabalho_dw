@@ -19,6 +19,11 @@ const routes = [
         name: 'epic',
         component: () => import('@/views/Epic.vue'),
       },
+      {
+        path: '/project',
+        name: 'project',
+        component: () => import('@/views/Project.vue'),
+      },
     ],
   },
 ]
