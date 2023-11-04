@@ -31,7 +31,7 @@ public class EpicDTO{
     @JsonIgnore
     private EpicService epicService;
 
-    @JsonIgnore
+    //@JsonIgnore
     private UUID id;
     private String title;
     private String description;

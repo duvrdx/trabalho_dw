@@ -26,7 +26,7 @@ public class TaskDTO {
     @JsonIgnore
     private TaskService taskService;
 
-    @JsonIgnore
+    //@JsonIgnore
     private UUID id;
     private String description;
     private String title;
