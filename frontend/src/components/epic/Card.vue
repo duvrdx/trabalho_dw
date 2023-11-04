@@ -3,7 +3,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import TypeTable from '@/components/epic/TypeTable.vue'
 import ProjectTable from '@/components/project/Table.vue'
-import epicCategories from '@/utils/epicCategories'
+import ETable from '@/components/epic/Table.vue'
 import api from '@api'
 
 
@@ -54,13 +54,45 @@ function clearProject() {
     project.value = {}
 }
 
-const category = ref('')
-
-
 const isValid = ref(null)
+
 const title = ref('')
 const description = ref('')
 const relevance = ref(0)
+
+const category = ref('')
+const categories = ref([])
+async function getCategories() {
+    const { data } = await api.get('/categories/epic')
+    categories.value = data
+}
+
+const dependencies = ref([])
+const selectDepsModal = ref(false)
+function selectDeps() {
+    selectDepsModal.value = true
+}
+function setDeps(newDeps) {
+    dependencies.value = newDeps
+}
+const depsText = computed(() =>
+    !dependencies.value || dependencies.value.length === 0 ?
+	'Nenhuma Dependencia selecionada'
+    : dependencies.value.length === 1 ?
+	'1 Dependencia selecionada'
+    : `${dependencies.value.length} Dependencias selecionadas`
+)
+
+function reset() {
+    title.value = ''
+    description.value = ''
+    relevance.value = undefined
+    type.value = {}
+    project.value = {}
+    category.value = ''
+    dependencies.value = []
+}
+
 async function register() {
     if(!isValid.value) {
 	console.error('dados invalidos do formulario')
@@ -73,27 +105,44 @@ async function register() {
 	epicTypeId: type.value.id,
 	projectId: project.value.id,
 	category: category.value,
-	// n ta funfando
-	// dependencies: null
+	dependencies: dependencies.value
     })
     emit('create', data)
+    // reset()
 }
 async function update() {
     if(!isValid.value) {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/epicType/${props.id}/`, {
-	description: description.value
+    const { data } = await api.put(`/epic/${props.id}/`, {
+	title: title.value,
+	description: description.value,
+	relevance: Number(relevance.value),
+	epicTypeId: type.value.id,
+	projectId: project.value.id,
+	category: category.value,
+	dependencies: dependencies.value
     })
     emit('update', data)
 }
 
 onBeforeMount(async () => {
+    await getCategories()
+
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/epicType/${props.id}`)
+	
+    const { data } = await api.get(`/epic/${props.id}`)
+    if(!data)
+	throw new Error(`nao foi possivel encontrar epico com id ${props.id}`)
+    title.value = data.title
     description.value = data.description
+    relevance.value = data.relevance
+    category.value = data.category
+    type.value = data.epicType
+    project.value = data.project
+    dependencies.value = data.depends.map((dep) => dep.id)
 })
 </script>
 
@@ -107,6 +156,7 @@ onBeforeMount(async () => {
 		<v-text-field v-model='title' label='Titulo' :rules=[requiredField] :readonly='readOnly' />
 		<v-text-field v-model='description' label='Descricao' :readonly='readOnly' />
 		<v-text-field v-model='relevance' label='Relevancia' :readonly='readOnly' type='number' />
+		<v-autocomplete v-model='category' label='Categoria' :items='categories'/>
 		<v-text-field v-model='type.description' label='Tipo' readonly clearable @click:clear='clearType'>
 		    <template #append>
 			<v-btn color='primary' icon @click='selectType'>
@@ -131,7 +181,18 @@ onBeforeMount(async () => {
 			</v-btn>
 		    </template>
 		</v-text-field>
-		<v-select v-model='category' label='Categoria' :items='epicCategories' clearable />
+		<v-text-field :modelValue='depsText' label='Dependencias' readonly>
+		    <template #append>
+			<v-btn color='primary' icon @click='selectDeps'>
+			    <v-icon>
+				{{ dependencies && dependencies.length ? 'mdi-pen' : 'mdi-plus' }}
+			    </v-icon>
+			    <v-tooltip activator='parent' position='top'>
+				{{ dependencies && dependencies.length ? 'Alterar' : 'Adicionar' }}
+			    </v-tooltip>
+			</v-btn>
+		    </template>
+		</v-text-field>
 	    </v-card-text>
 	    <v-card-actions>
 		<v-spacer />
@@ -144,6 +205,9 @@ onBeforeMount(async () => {
 	</v-dialog>
 	<v-dialog v-model='selectProjectModal'>
 	    <project-table select-mode @select='onProjectSelected' />
+	</v-dialog>
+	<v-dialog v-model='selectDepsModal'>
+	    <e-table v-model='dependencies' select-mode='multiple' @select-multiple='selectDepsModal = false' />
 	</v-dialog>
     </v-card>
 </template>

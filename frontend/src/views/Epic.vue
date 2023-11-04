@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import Card from '@/components/epic/Card.vue'
+import ETable from '@/components/epic/Table.vue'
 import TypeCard from '@/components/epic/TypeCard.vue'
 import TypeTable from '@/components/epic/TypeTable.vue'
 
@@ -15,7 +16,5 @@ function criouProjeto(projeto) {
 </script>
 
 <template>
-    <card mode='create' />
-    <type-card mode='create' width='320px' @create='onCreateType' />
-    <type-table width='640px' :refresh='refreshTable' />
+    <e-table />
 </template>
