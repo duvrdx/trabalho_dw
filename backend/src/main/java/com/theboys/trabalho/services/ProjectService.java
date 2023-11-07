@@ -46,17 +46,4 @@ public class ProjectService {
     public void delete(UUID id){
         repository.deleteById(id);
     }
-
-    public Epic addEpic(UUID projectId, UUID epicId){
-        Project project = this.findById(projectId);
-        Epic epic = epicService.findById(epicId);
-
-        project.getEpics().add(epic);
-        repository.save(project);
-
-//        # TODO - Adicionar funcionalidade de já gerar
-        return epic;
-    }
-
-
 }

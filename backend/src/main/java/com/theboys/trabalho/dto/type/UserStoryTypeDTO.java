@@ -18,6 +18,7 @@ public class UserStoryTypeDTO {
     @JsonIgnore
     private EpicTypeService epicTypeService;
 
+    @JsonIgnore
     private UUID id;
     private String description;
     private UUID epicTypeId;

@@ -74,16 +74,4 @@ public class ProjectController{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    @PutMapping("/{projectId}/addEpic/{epicId}")
-    public ResponseEntity<Epic> addUserStoryType(@PathVariable UUID projectId, @PathVariable UUID epicId){
-        try {
-            return new ResponseEntity<>(service.addEpic(projectId, epicId), HttpStatus.OK);
-        }catch (EpicNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 }
