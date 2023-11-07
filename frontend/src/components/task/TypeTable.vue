@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import TypeCard from '@/components/epic/TypeCard.vue'
 import api from '@api'
 
 
 
 const props = defineProps({
+    modelValue: {
+	type: Array
+    },
     refresh: {
 	required: false
     },
@@ -14,7 +16,7 @@ const props = defineProps({
 	type: Boolean
     }
 })
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'update:modelValue'])
 
 const headers = [
     {
@@ -27,15 +29,18 @@ const headers = [
 	key: 'actions'
     },
 ]
-const items = ref([])
+
+function updateModelValue(newVal) {
+    emit('update:modelValue', newVal)
+}
 
 async function fetchItems() {
-    const { data } = await api.get('/epicType')
-    items.value = data
+    const { data } = await api.get('/taskType')
+    updateModelValue(data)
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/epicType/${id}/`)
+    const { data } = await api.delete(`/taskType/${id}/`)
     console.log(data)
     await fetchItems()
 }
@@ -62,18 +67,23 @@ async function onUpdate() {
     await fetchItems()
 }
 
+
+
+
 watch(() => props.refresh, fetchItems)
 
-onBeforeMount(fetchItems)
+// onBeforeMount(fetchItems)
 </script>
 
 <template>
     <v-card>
 	<v-card-item>
-	    <v-card-title>{{ props.selectMode ? 'Selecionar Tipo de Epico' : 'Tipos de Epico' }}</v-card-title>
+	    <v-card-title>
+		Tipos de Tarefa
+	    </v-card-title>
 	</v-card-item>
 	<v-card-text>
-	    <v-data-table :headers='headers' :items='items' density='compact'>
+	    <v-data-table :headers='headers' :items='props.modelValue' density='compact'>
 		<template #item.actions="{ item }">
 		    <v-btn color='black' icon @click='deleteItem(item.id)'>
 			<v-tooltip activator='parent' location='top'>Excluir</v-tooltip>
@@ -94,11 +104,11 @@ onBeforeMount(fetchItems)
 	    <v-spacer />
 	    <v-btn color='blue' @click='create'>Criar Novo</v-btn>
 	</v-card-actions>
-	<v-dialog v-model='editModal'>
+	<!--<v-dialog v-model='editModal'>
 	    <type-card :id='editId' mode='edit' @update='onUpdate' />
 	</v-dialog>
 	<v-dialog v-model='createModal'>
 	    <type-card mode='create' @create='onCreate' />
-	</v-dialog>
+	</v-dialog>-->
     </v-card>
 </template>

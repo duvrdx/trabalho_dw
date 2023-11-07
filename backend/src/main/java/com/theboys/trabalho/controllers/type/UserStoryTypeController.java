@@ -36,7 +36,7 @@ public class UserStoryTypeController{
     public ResponseEntity<UserStoryType> getById(@PathVariable UUID id){
         try {
             return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
-        }catch (EpicNotFoundException e){
+        } catch (EpicNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (Exception e){

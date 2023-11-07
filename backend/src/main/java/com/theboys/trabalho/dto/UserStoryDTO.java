@@ -24,7 +24,7 @@ public class UserStoryDTO {
     @JsonIgnore
     private EpicService epicService;
 
-    @JsonIgnore
+    //@JsonIgnore
     private UUID id;
     private String description;
     private String title;
