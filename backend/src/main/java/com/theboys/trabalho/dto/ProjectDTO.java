@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProjectDTO {
-    @JsonIgnore
+//    @JsonIgnore
     private UUID id;
     private String name;
 

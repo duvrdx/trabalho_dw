@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class EpicTypeDTO {
-    @JsonIgnore
+//    @JsonIgnore
     private UUID id;
     private String description;
 
