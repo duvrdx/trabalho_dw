@@ -29,6 +29,11 @@ const routes = [
         name: 'userstory',
         component: () => import('@/views/UserStory.vue'),
       },
+      {
+        path: '/task',
+        name: 'task',
+        component: () => import('@/views/Task.vue'),
+      },
     ],
   },
 ]

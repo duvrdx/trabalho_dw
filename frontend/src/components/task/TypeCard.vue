@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
-import EpicTypeTable from '@/components/epic/TypeTable.vue'
+import UserTypeTable from '@/components/userstory/TypeTable.vue'
 import api from '@api'
 
 
@@ -26,17 +26,17 @@ const readOnly = computed(() => props.mode === 'readonly')
 
 const isValid = ref(null)
 const description = ref('')
-const epicType = ref({})
+const userStoryType = ref({})
 
 
 
-const epicTypeModal = ref(false)
-function selectEpicType() {
-    epicTypeModal.value = true
+const userStoryTypeModal = ref(false)
+function selectUserStoryType() {
+    userStoryTypeModal.value = true
 }
-function onEpicTypeSelected(newEpicType) {
-    epicType.value = newEpicType
-    epicTypeModal.value = false
+function onUserStoryTypeSelected(newUserStoryType) {
+    userStoryType.value = newUserStoryType
+    userStoryTypeModal.value = false
 }
 
 
@@ -46,9 +46,9 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/userStoryType/', {
+    const { data } = await api.post('/taskType/', {
 	description: description.value,
-	epicTypeId: epicType.value.id
+	userStoryTypeId: userStoryType.value.id
     })
     emit('create', data)
 }
@@ -57,9 +57,9 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/userStoryType/${props.id}/`, {
+    const { data } = await api.put(`/taskType/${props.id}/`, {
 	description: description.value,
-	epicTypeId: epicType.value.id
+	userStoryTypeId: userStoryType.value.id
     })
     emit('update', data)
 }
@@ -69,28 +69,28 @@ async function update() {
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/userStoryType/${props.id}`)
+    const { data } = await api.get(`/taskType/${props.id}`)
     description.value = data.description
-    epicType.value = data.epicType
+    userStoryType.value = data.userStoryType
 })
 </script>
 
 <template>
     <v-card>
 	<v-card-item>
-	    <v-card-title>Tipo de Historia de Usuario</v-card-title>
+	    <v-card-title>Tipo de Tarefa</v-card-title>
 	</v-card-item>
 	<v-form v-model='isValid' @submit.prevent='register'>
 	    <v-card-text>
 		<v-text-field v-model='description' label='Descricao' :rules=[requiredField] :readonly='readOnly' />
-		<v-text-field v-model='epicType.description' label='Tipo de Epico' readonly clearable @click:clear='epicType = {}'>
+		<v-text-field v-model='userStoryType.description' label='Tipo de Historia de Usuario' readonly clearable @click:clear='userStoryType = {}'>
 		    <template #append>
-			<v-btn color='primary' icon @click='selectEpicType'>
+			<v-btn color='primary' icon @click='selectUserStoryType'>
 			    <v-icon>
-				{{ epicType.id ? 'mdi-pen' : 'mdi-plus' }}
+				{{ userStoryType.id ? 'mdi-pen' : 'mdi-plus' }}
 			    </v-icon>
 			    <v-tooltip activator='parent' position='top'>
-				{{ epicType.id ? 'Alterar' : 'Adicionar' }}
+				{{ userStoryType.id ? 'Alterar' : 'Adicionar' }}
 			    </v-tooltip>
 			</v-btn>
 		    </template>
@@ -102,8 +102,8 @@ onBeforeMount(async () => {
 		<v-btn v-else-if='props.mode === "edit"' :disabled='!isValid' color='primary' @click='update'>Atualizar</v-btn>
 	    </v-card-actions>
 	</v-form>
-	<v-dialog v-model='epicTypeModal'>
-	    <epic-type-table select-mode @select='onEpicTypeSelected' />
+	<v-dialog v-model='userStoryTypeModal'>
+	    <user-type-table select-mode @select='onUserStoryTypeSelected' />
 	</v-dialog>
     </v-card>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, watch } from 'vue'
+import TypeCard from '@/components/task/TypeCard.vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import api from '@api'
 
@@ -41,7 +42,6 @@ async function fetchItems() {
 
 async function deleteItem(id) {
     const { data } = await api.delete(`/taskType/${id}/`)
-    console.log(data)
     await fetchItems()
 }
 
@@ -72,7 +72,7 @@ async function onUpdate() {
 
 watch(() => props.refresh, fetchItems)
 
-// onBeforeMount(fetchItems)
+onBeforeMount(fetchItems)
 </script>
 
 <template>
@@ -104,11 +104,11 @@ watch(() => props.refresh, fetchItems)
 	    <v-spacer />
 	    <v-btn color='blue' @click='create'>Criar Novo</v-btn>
 	</v-card-actions>
-	<!--<v-dialog v-model='editModal'>
+	<v-dialog v-model='editModal'>
 	    <type-card :id='editId' mode='edit' @update='onUpdate' />
 	</v-dialog>
 	<v-dialog v-model='createModal'>
 	    <type-card mode='create' @create='onCreate' />
-	</v-dialog>-->
+	</v-dialog>
     </v-card>
 </template>

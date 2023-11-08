@@ -46,97 +46,6 @@ const headers = [
     },
 ]
 const items = ref([
-{
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "description": "tipo de historia de usuario",
-  "epicType": {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "description": "tipo de epico",
-    "userStoryTypeList": [
-      "string"
-    ],
-    "epics": [
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "description": "string",
-        "title": "string",
-        "relevance": 0,
-        "category": "CATEGORY",
-        "userStories": [
-          "string"
-        ],
-        "epicType": "string",
-        "project": {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "name": "string",
-          "epics": [
-            "string"
-          ]
-        },
-        "depends": [
-          "string"
-        ]
-      }
-    ]
-  },
-  "taskTypeList": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "description": "string",
-      "userStoryType": "string"
-    }
-  ],
-  "userStories": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "title": "string",
-      "description": "string",
-      "relevance": 0,
-      "category": "CATEGORY",
-      "tasks": [
-        {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "description": "string",
-          "title": "string",
-          "userStory": "string",
-          "taskType": {
-            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "description": "string",
-            "userStoryType": "string"
-          },
-          "depends": [
-            "string"
-          ]
-        }
-      ],
-      "epic": {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "description": "string",
-        "title": "string",
-        "relevance": 0,
-        "category": "CATEGORY",
-        "userStories": [
-          "string"
-        ],
-        "epicType": "string",
-        "project": {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "name": "string",
-          "epics": [
-            "string"
-          ]
-        },
-        "depends": [
-          "string"
-        ]
-      },
-      "userStoryType": "string",
-      "depends": [
-        "string"
-      ]
-    }
-  ]
-}
 ])
 
 async function fetchItems() {
@@ -146,7 +55,6 @@ async function fetchItems() {
 
 async function deleteItem(id) {
     const { data } = await api.delete(`/userStoryType/${id}/`)
-    console.log(data)
     await fetchItems()
 }
 
@@ -201,7 +109,7 @@ function hideUserStories() {
 
 watch(() => props.refresh, fetchItems)
 
-// onBeforeMount(fetchItems)
+onBeforeMount(fetchItems)
 </script>
 
 <template>
