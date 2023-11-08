@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 !**/src/test/**/target/
 backend/src/main/resources/
+budibase/
 
 ### STS ###
 .apt_generated
