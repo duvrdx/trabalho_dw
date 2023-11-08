@@ -1,0 +1,9 @@
+{
+  "name": "dw-crud",
+  "version": 2,
+  "builds": [{ "src": "target/*.jar", "use": "@vercel/java" }],
+  "routes": [
+    { "src": "/(.*)", "dest": "target/my-spring-boot-app.jar" }
+  ]
+}
+

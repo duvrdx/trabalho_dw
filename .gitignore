@@ -5,10 +5,6 @@ target/
 !**/src/test/**/target/
 !**/src/test/**/target/
 backend/src/main/resources/
-backend/.vercel/
-backend/vercel.json
-backend/target/
-backend/src/main/resources/
 
 ### STS ###
 .apt_generated
