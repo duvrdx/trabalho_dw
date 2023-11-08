@@ -38,6 +38,10 @@ public class UserStoryService {
     public UserStory update(UUID id, UserStory newUserStory){
         UserStory outdatedUserStory = findById(id);
         if(newUserStory.getDepends().contains(outdatedUserStory)) throw new RuntimeException("Self dependency is not allowed");
+        outdatedUserStory.setTitle(newUserStory.getTitle());
+        outdatedUserStory.setRelevance(newUserStory.getRelevance());
+        outdatedUserStory.setCategory(newUserStory.getCategory());
+        outdatedUserStory.setDepends(outdatedUserStory.getDepends());
         outdatedUserStory.setDescription(newUserStory.getDescription());
         repository.save(outdatedUserStory);
 
