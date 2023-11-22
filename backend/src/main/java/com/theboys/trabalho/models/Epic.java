@@ -26,7 +26,7 @@ public class Epic {
     @Enumerated(EnumType.STRING)
     private EpicCategory category;
 
-    @OneToMany(mappedBy = "epic")
+    @OneToMany(mappedBy = "epic", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<UserStory> userStories;
 

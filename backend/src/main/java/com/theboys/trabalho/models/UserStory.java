@@ -27,7 +27,7 @@ public class UserStory {
     @Enumerated(EnumType.STRING)
     private UserStoryCategory category;
 
-    @OneToMany(mappedBy = "userStory")
+    @OneToMany(mappedBy = "userStory", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Task> tasks;
 

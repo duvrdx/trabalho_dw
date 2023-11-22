@@ -19,7 +19,7 @@ public class Project {
     private UUID id;
     private String name;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Epic> epics;
 }
