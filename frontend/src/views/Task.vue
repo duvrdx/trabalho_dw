@@ -1,9 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import TypeTable from '@/components/task/TypeTable.vue'
-const tipos = ref([])
+import Card from '@/components/task/Card.vue'
 </script>
 
 <template>
-    <type-table v-model='tipos'/>
+    <card mode='create' />
 </template>
