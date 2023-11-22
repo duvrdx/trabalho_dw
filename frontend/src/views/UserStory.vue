@@ -1,9 +1,8 @@
 <script setup>
-import TypeCard from '@/components/userstory/TypeCard.vue'
-import TypeTable from '@/components/userstory/TypeTable.vue'
+import Card from '@/components/userstory/Card.vue'
+import STable from '@/components/userstory/Table.vue'
 </script>
 
 <template>
-    <type-card mode='create' @create='console.log' />
-    <type-table />
+    <s-table />
 </template>

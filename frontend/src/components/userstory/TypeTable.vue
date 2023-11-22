@@ -28,6 +28,7 @@ const headers = [
 	sortable: true,
 	key: 'epicType.description'
     },
+    /*
     {
 	title: 'Tipos de Tarefa',
 	sortable: false,
@@ -40,6 +41,7 @@ const headers = [
 	align: 'center',
 	key: 'userstories'
     },
+    */
     {
 	title: 'Acoes',
 	key: 'actions'

@@ -91,7 +91,7 @@ onBeforeMount(fetchItems)
 		</template>
 	    </v-data-table>
 	</v-card-text>
-	<v-card-actions v-if='props.selectMode'>
+	<v-card-actions>
 	    <v-spacer />
 	    <v-btn color='blue' @click='create'>Criar Novo</v-btn>
 	</v-card-actions>

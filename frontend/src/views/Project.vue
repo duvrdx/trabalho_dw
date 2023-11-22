@@ -10,5 +10,5 @@ function onCreate() {
 </script>
 
 <template>
-    <card width='320px' mode='create' @create='onCreate' />
+    <p-table />
 </template>
