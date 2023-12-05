@@ -1,0 +1,34 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_dw
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  springboot-app:
+    container_name: spring_dw
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRINGDOC_SWAGGER_UI_PATH: /
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 4
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 8000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 600000
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      - ./src:/app/src  # Mapeie o diretório de código-fonte local para o contêiner
