@@ -1,5 +1,6 @@
 package com.theboys.trabalho.services;
 
+import aula25_grafos.Grafo;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.Task;
@@ -22,6 +23,9 @@ import java.util.UUID;
 @Service
 public class EpicService {
 
+
+    private final Grafo<Epic> graph = new Grafo<Epic>();
+
     @Autowired
     private EpicRepository repository;
 
@@ -35,7 +39,10 @@ public class EpicService {
     private TaskService taskService;
 
     public Epic create(Epic epic){
+
+        if(epic.getDepends().contains(epic)) throw new RuntimeException("Self dependency is not allowed");
         repository.save(epic);
+
         return epic;
     }
 
@@ -52,8 +59,18 @@ public class EpicService {
 
     public Epic update(UUID id, Epic newEpic){
         Epic outdatedEpic = findById(id);
+
+        /// Função
         if(newEpic.getDepends().contains(outdatedEpic)) throw new RuntimeException("Self dependency is not allowed");
         outdatedEpic.setDescription(newEpic.getDescription());
+        outdatedEpic.setTitle(newEpic.getTitle());
+        outdatedEpic.setRelevance(newEpic.getRelevance());
+        outdatedEpic.setEpicType(newEpic.getEpicType());
+        outdatedEpic.setProject(newEpic.getProject());
+
+
+        // Adicionar dependencia
+
         repository.save(outdatedEpic);
 
         return newEpic;
