@@ -1,19 +1,17 @@
 package com.theboys.trabalho.services;
 
-import aula25_grafos.Grafo;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.Task;
 import com.theboys.trabalho.models.UserStory;
-import com.theboys.trabalho.models.type.EpicType;
 import com.theboys.trabalho.models.type.TaskType;
 import com.theboys.trabalho.models.type.UserStoryType;
 import com.theboys.trabalho.repositories.EpicRepository;
 import com.theboys.trabalho.services.type.EpicTypeService;
-import com.theboys.trabalho.services.type.TaskTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,9 +20,6 @@ import java.util.UUID;
 
 @Service
 public class EpicService {
-
-
-    private final Grafo<Epic> graph = new Grafo<Epic>();
 
     @Autowired
     private EpicRepository repository;
@@ -67,9 +62,7 @@ public class EpicService {
         outdatedEpic.setRelevance(newEpic.getRelevance());
         outdatedEpic.setEpicType(newEpic.getEpicType());
         outdatedEpic.setProject(newEpic.getProject());
-
-
-        // Adicionar dependencia
+        outdatedEpic.setDepends(newEpic.getDepends());
 
         repository.save(outdatedEpic);
 
@@ -93,20 +86,38 @@ public class EpicService {
         String action;
         String item;
 
+        List<Epic> dependencies = epic.getDepends();
+        List<Epic> validDependencies = new ArrayList<Epic>();
+
+        if(!dependencies.isEmpty()){
+            for(Epic dependency : dependencies) {
+                if (!dependency.getUserStories().isEmpty()) {
+                    validDependencies.add(dependency);
+                }
+            }
+        }
+
         if (matcher.find()){ actor = matcher.group(1);}
         item = palavras[palavras.length - 1];
 
         for(UserStoryType usType: userStoryTypes) {
             UserStory userStory = new UserStory();
+            List<UserStory> usDependencies = new ArrayList<UserStory>();
 
             action = usType.getDescription().toLowerCase();
+
+            for(Epic validDependecy : validDependencies){
+                usDependencies.addAll(validDependecy.getUserStories());
+            }
 
             userStory
                     .setEpic(epic)
                     .setUserStoryType(usType)
                     .setRelevance(epic.getRelevance())
                     .setTitle(epic.getTitle())
-                    .setDescription(String.format("Eu, como %s, quero %s um %s", actor, action, item));
+                    .setDescription(String.format("Eu, como %s, quero %s um %s", actor, action, item))
+                    .setDepends(usDependencies);
+
 
 
             usService.create(userStory);
@@ -116,13 +127,21 @@ public class EpicService {
             for(TaskType taskType: usType.getTaskTypeList()){
                 Task task = new Task();
                 defaultTask = taskType.getDescription();
+                List<Task> taskDependencies = new ArrayList<Task>();
+
+                for(UserStory usDependency : usDependencies){
+                    taskDependencies.addAll(usDependency.getTasks());
+                }
 
                 task.setUserStory(userStory)
                         .setDescription(String.format("%s %s", defaultTask, item))
                         .setTitle(epic.getTitle())
-                        .setTaskType(taskType);
+                        .setTaskType(taskType)
+                        .setDepends(taskDependencies);
 
                 taskService.create(task);
+
+
             }
         }
     }

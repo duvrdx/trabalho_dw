@@ -1,6 +1,8 @@
 package com.theboys.trabalho.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.theboys.trabalho.models.type.TaskType;
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,8 +1,10 @@
 package com.theboys.trabalho.services;
 import aula25_grafos.Grafo;
 import com.theboys.trabalho.models.Epic;
+import com.theboys.trabalho.models.Relatory;
 import com.theboys.trabalho.models.Task;
 import com.theboys.trabalho.models.UserStory;
+import jakarta.persistence.Entity;
 import lib.ArvoreAVLExemplo;
 import lib.ArvoreBinariaExemplo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +64,17 @@ public class RelatoryService {
     @Autowired
     private UserStoryService userStoryService;
 
+    public Object getRelatory(String type){
+        return switch (type) {
+            case "epic" -> new Relatory<Epic>(checkEpicCycle(), getEpicOrder());
+            case "userstory" -> new Relatory<UserStory>(checkUserStoryCycle(), getUserStoryOrder());
+            case "task" -> new Relatory<Task>(checkTaskCycle(), getTaskOrder());
+            default -> throw new RuntimeException("Not Implemented");
+        };
+    }
+
     public List<Epic> getEpicOrder(){
-        ArvoreBinariaExemplo<Epic> tree = new ArvoreBinariaExemplo<Epic>(epicComparator);
+        ArvoreAVLExemplo<Epic> tree = new ArvoreAVLExemplo<Epic>(epicComparator);
 
         for(Epic epic : epicService.findAll()){
             tree.adicionar(epic);
@@ -71,6 +82,7 @@ public class RelatoryService {
 
         return tree.caminharEmNivel();
     }
+
 
     public Boolean checkEpicCycle(){
         Grafo<String> graph = new Grafo<String>();
@@ -85,7 +97,7 @@ public class RelatoryService {
     }
 
     public List<Task> getTaskOrder(){
-        ArvoreBinariaExemplo<Task> tree = new ArvoreBinariaExemplo<Task>(taskComparator);
+        ArvoreAVLExemplo<Task> tree = new ArvoreAVLExemplo<Task>(taskComparator);
 
         for(Task task : taskService.findAll()){
             tree.adicionar(task);
@@ -107,7 +119,7 @@ public class RelatoryService {
     }
 
     public List<UserStory> getUserStoryOrder(){
-        ArvoreBinariaExemplo<UserStory> tree = new ArvoreBinariaExemplo<UserStory>(userStoryComparator);
+        ArvoreAVLExemplo<UserStory> tree = new ArvoreAVLExemplo<UserStory>(userStoryComparator);
 
         for(UserStory userStory : userStoryService.findAll()){
             tree.adicionar(userStory);
