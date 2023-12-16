@@ -2,7 +2,7 @@
 import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Card from '@/components/userstory/Card.vue'
-import api from '@api'
+import userstoryController from '@/controllers/userstory'
 
 
 
@@ -72,12 +72,12 @@ const headers = [
 const items = ref([])
 
 async function fetchItems() {
-    const { data } = await api.get('/userStory')
+    const { data } = await userstoryController.list()
     items.value = data
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/userStory/${id}/`)
+    const { data } = await userstoryController.deleteItem(id)
     await fetchItems()
 }
 
@@ -127,9 +127,9 @@ onBeforeMount(fetchItems)
 		    <v-btn color='blue' icon @click='editItem(item.id)'>
 			<v-tooltip activator='parent' location='top'>Editar</v-tooltip>
 			<v-icon>mdi-pen</v-icon>
-			<!-- <v-dialog v-model='editModal' activator='parent'>
+			<v-dialog v-model='editModal' activator='parent'>
 			    <card mode='edit' :id='editId' @edit='onUpdate' />
-			</v-dialog> -->
+			</v-dialog>
 		    </v-btn>
 		    <v-btn v-if='props.selectMode === "single"' color='green' icon @click='selectItem(item)'>
 			<v-tooltip activator='parent' location='top'>Selecionar</v-tooltip>

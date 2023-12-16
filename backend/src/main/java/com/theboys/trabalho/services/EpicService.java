@@ -1,6 +1,6 @@
 package com.theboys.trabalho.services;
 
-import aula25_grafos.Grafo;
+// import aula25_grafos.Grafo;
 import com.theboys.trabalho.exceptions.EpicNotFoundException;
 import com.theboys.trabalho.models.Epic;
 import com.theboys.trabalho.models.Task;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class EpicService {
 
 
-    private final Grafo<Epic> graph = new Grafo<Epic>();
+    // private final Grafo<Epic> graph = new Grafo<Epic>();
 
     @Autowired
     private EpicRepository repository;
