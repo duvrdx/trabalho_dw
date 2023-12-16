@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
-import api from '@api'
+import epicController from '@/controllers/epic'
 
 
 
@@ -30,7 +30,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/epicType/', {
+    const { data } = await epicController.registerType({
 	description: description.value
     })
     emit('create', data)
@@ -40,7 +40,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/epicType/${props.id}/`, {
+    const { data } = epicController.updateType({
 	description: description.value
     })
     emit('update', data)
@@ -49,7 +49,7 @@ async function update() {
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/epicType/${props.id}`)
+    const { data } = await epicController.listTypes()
     description.value = data.description
 })
 </script>

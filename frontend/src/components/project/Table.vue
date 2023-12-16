@@ -3,6 +3,7 @@ import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Card from '@/components/project/Card.vue'
 import api from '@api'
+import projController from '@/controllers/project'
 
 
 
@@ -31,12 +32,12 @@ const headers = [
 const items = ref([])
 
 async function fetchItems() {
-    const { data } = await api.get('/project')
+    const { data } = await projController.list()
     items.value = data
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/project/${id}/`)
+    const { data } = await projController.deleteItem(id)
     await fetchItems()
 }
 function selectItem(project) {

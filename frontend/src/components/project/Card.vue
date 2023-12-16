@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
-import api from '@api'
+import projController from '@/controllers/project'
 
 
 
@@ -25,32 +25,28 @@ const readOnly = computed(() => props.mode === 'readonly')
 
 const isValid = ref(null)
 const name = ref('')
-async function register() {
+async function registerProj() {
     if(!isValid.value) {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/project/', {
-	name: name.value
-    })
+    const { data } = await projController.register(name.value)
     emit('create', data)
 }
-async function update() {
+async function updateProj() {
     if(!isValid.value) {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/project/${props.id}/`, {
-	name: name.value
-    })
+    const { data } = await projController.update(props.id, name.value)
     emit('update', data)
 }
 
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/project/${props.id}`)
-    name.value = data.name
+    // const { data } = projController.getItem(id)
+    // name.value = data.name
 })
 </script>
 
@@ -59,14 +55,16 @@ onBeforeMount(async () => {
 	<v-card-item>
 	    <v-card-title>Projeto</v-card-title>
 	</v-card-item>
-	<v-form v-model='isValid' @submit.prevent='register'>
+	<v-form v-model='isValid' @submit.prevent='registerProj'>
 	    <v-card-text>
 		<v-text-field v-model='name' label='Nome' :rules=[requiredField] :readonly='readOnly' />
 	    </v-card-text>
 	    <v-card-actions>
 		<v-spacer />
-		<v-btn v-if='props.mode === "create"' :disabled='!isValid' color='success' @click='register'>Registrar</v-btn>
-		<v-btn v-else-if='props.mode === "edit"' :disabled='!isValid' color='primary' @click='update'>Atualizar</v-btn>
+		<v-btn v-if='props.mode === "create"' :disabled='!isValid' color='success' type='submit'>Registrar</v-btn>
+		<v-btn v-else-if='props.mode === "edit"' :disabled='!isValid' color='primary' @click='updateProj'>
+		       Atualizar
+		</v-btn>
 	    </v-card-actions>
 	</v-form>
     </v-card>

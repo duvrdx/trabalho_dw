@@ -4,7 +4,7 @@ import { requiredField } from '@/utils/validation'
 import TypeTable from '@/components/epic/TypeTable.vue'
 import ProjectTable from '@/components/project/Table.vue'
 import ETable from '@/components/epic/Table.vue'
-import api from '@api'
+import epicController from '@/controllers/epic'
 
 
 
@@ -63,7 +63,7 @@ const relevance = ref(0)
 const category = ref('')
 const categories = ref([])
 async function getCategories() {
-    const { data } = await api.get('/categories/epic')
+    const { data } = await epicController.getCategories()
     categories.value = data
 }
 
@@ -82,6 +82,7 @@ const depsText = computed(() =>
 	'1 Dependencia selecionada'
     : `${dependencies.value.length} Dependencias selecionadas`
 )
+const generate = ref(true)
 
 function reset() {
     title.value = ''
@@ -91,6 +92,7 @@ function reset() {
     project.value = {}
     category.value = ''
     dependencies.value = []
+    generate.value = true
 }
 
 async function register() {
@@ -98,7 +100,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/epic/', {
+    const { data } = await epicController.register({
 	title: title.value,
 	description: description.value,
 	relevance: Number(relevance.value),
@@ -107,6 +109,8 @@ async function register() {
 	category: category.value,
 	dependencies: dependencies.value
     })
+    if(generate.value)
+	await epicController.generate(data.id)
     emit('create', data)
     // reset()
 }
@@ -115,7 +119,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/epic/${props.id}/`, {
+    const { data } = await epicController.update(props.id, {
 	title: title.value,
 	description: description.value,
 	relevance: Number(relevance.value),
@@ -133,7 +137,7 @@ onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
 	
-    const { data } = await api.get(`/epic/${props.id}`)
+    const { data } = await epicController.getItem(props.id)
     if(!data)
 	throw new Error(`nao foi possivel encontrar epico com id ${props.id}`)
     title.value = data.title
@@ -193,6 +197,7 @@ onBeforeMount(async () => {
 			</v-btn>
 		    </template>
 		</v-text-field>
+		<v-checkbox v-model='generate' label='Gerar Histórias de Usuário e Tarefas' />
 	    </v-card-text>
 	    <v-card-actions>
 		<v-spacer />

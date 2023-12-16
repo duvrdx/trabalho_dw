@@ -2,7 +2,7 @@
 import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import UserTypeTable from '@/components/userstory/TypeTable.vue'
-import api from '@api'
+import taskController from '@/controllers/task'
 
 
 
@@ -46,7 +46,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/taskType/', {
+    const { data } = await taskController.registerType({
 	description: description.value,
 	userStoryTypeId: userStoryType.value.id
     })
@@ -57,7 +57,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/taskType/${props.id}/`, {
+    const { data } = await taskController.updateType(props.id, {
 	description: description.value,
 	userStoryTypeId: userStoryType.value.id
     })
@@ -69,7 +69,7 @@ async function update() {
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/taskType/${props.id}`)
+    const { data } = await taskController.getType(props.id)
     description.value = data.description
     userStoryType.value = data.userStoryType
 })

@@ -2,7 +2,7 @@
 import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import TypeCard from '@/components/epic/TypeCard.vue'
-import api from '@api'
+import epicController from '@/controllers/epic'
 
 
 
@@ -30,13 +30,12 @@ const headers = [
 const items = ref([])
 
 async function fetchItems() {
-    const { data } = await api.get('/epicType')
+    const { data } = await epicController.listTypes()
     items.value = data
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/epicType/${id}/`)
-    console.log(data)
+    const { data } = await epicController.deleteType(id)
     await fetchItems()
 }
 

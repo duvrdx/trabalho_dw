@@ -2,7 +2,7 @@
 import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import Card from '@/components/epic/Card.vue'
-import api from '@api'
+import epicController from '@/controllers/epic'
 
 
 
@@ -68,11 +68,11 @@ const headers = [
 
 const items = ref([])
 async function fetchItems() {
-    const { data } = await api.get('/epic')
+    const { data } = await epicController.list()
     items.value = data
 }
 async function deleteItem(id) {
-    const { data } = await api.delete(`/epic/${id}/`)
+    const { data } = await epicController.delete(id)
     await fetchItems()
 }
 
