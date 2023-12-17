@@ -43,6 +43,7 @@ public class UserStoryService {
         outdatedUserStory.setCategory(newUserStory.getCategory());
         outdatedUserStory.setDepends(outdatedUserStory.getDepends());
         outdatedUserStory.setDescription(newUserStory.getDescription());
+        outdatedUserStory.setDepends(newUserStory.getDepends());
 
         repository.save(outdatedUserStory);
 

@@ -38,8 +38,8 @@ public class TaskService {
         Task outdatedTask = findById(id);
         if(newTask.getDepends().contains(outdatedTask)) throw new RuntimeException("Self dependency is not allowed");
         outdatedTask.setDescription(newTask.getDescription());
+        outdatedTask.setDepends(newTask.getDepends());
 
-        // Adicionar dependencia
 
         repository.save(outdatedTask);
 
