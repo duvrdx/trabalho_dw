@@ -1,7 +1,7 @@
 # essentials
 
 ## conexao com backend
-Configurado em src/services/axios, url atual `http://localhost:8080/`
+Configurado em src/services/axios, url atual `http://backend:8080/`
 
 ## versao do node
 Escrita no arquivo `.node-version`. Uso e recomendo o `fnm`.
@@ -32,4 +32,11 @@ npm run build
 ```
 # npm
 npm run lint
+```
+
+## Construindo imagem Docker
+```
+npm install
+npm run build
+docker build .
 ```

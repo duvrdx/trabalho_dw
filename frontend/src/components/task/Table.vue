@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import Card from '@/components/epic/Card.vue'
-import api from '@api'
+import Card from '@/components/task/Card.vue'
+import taskController from '@/controllers/task'
 
 
 
@@ -41,24 +41,19 @@ const headers = [
 	key: 'description'
     },
     {
-	title: 'Relevancia',
-	sortable: true,
-	key: 'relevance'
-    },
-    {
 	title: 'Categoria',
 	sortable: true,
-	key: 'category'
+	key: 'userStory.epic.category'
     },
     {
 	title: 'Tipo',
 	sortable: true,
-	key: 'epicType.description'
+	key: 'taskType.description'
     },
     {
 	title: 'Projeto',
 	sortable: true,
-	key: 'project.name'
+	key: 'userStory.epic.project.name'
     },
     {
 	title: 'Acoes',
@@ -68,11 +63,11 @@ const headers = [
 
 const items = ref([])
 async function fetchItems() {
-    const { data } = await api.get('/epic')
+    const { data } = await taskController.list()
     items.value = data
 }
 async function deleteItem(id) {
-    const { data } = await api.delete(`/epic/${id}/`)
+    const { data } = await taskController.deleteItem(id)
     await fetchItems()
 }
 
@@ -110,7 +105,7 @@ onBeforeMount(fetchItems)
 <template>
     <v-card>
 	<v-card-item>
-	    <v-card-title>{{ props.selectMode ? 'Selecionar Epico' : 'Epicos' }}</v-card-title>
+	    <v-card-title>{{ props.selectMode ? 'Selecionar Tarefa' : 'Tarefas' }}</v-card-title>
 	</v-card-item>
 	<v-card-text>
 	    <v-data-table :modelValue='props.modelValue' @update:modelValue='updateModelValue'

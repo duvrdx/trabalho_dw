@@ -7,22 +7,18 @@ const routes = [
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: '',
-        name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-      },
-      {
-        path: '/epic',
-        name: 'epic',
-        component: () => import('@/views/Epic.vue'),
+        path: '/:pathMatch(.*)*',
+        redirect: { name: 'project' },
       },
       {
         path: '/project',
         name: 'project',
         component: () => import('@/views/Project.vue'),
+      },
+      {
+        path: '/epic',
+        name: 'epic',
+        component: () => import('@/views/Epic.vue'),
       },
       {
         path: '/userstory',

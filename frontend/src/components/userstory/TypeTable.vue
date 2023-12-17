@@ -3,7 +3,7 @@ import { ref, onBeforeMount, watch } from 'vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import TypeCard from '@/components/userstory/TypeCard.vue'
 import TaskTypeTable from '@/components/task/TypeTable.vue'
-import api from '@api'
+import userstoryController from '@/controllers/userstory'
 
 
 
@@ -51,12 +51,12 @@ const items = ref([
 ])
 
 async function fetchItems() {
-    const { data } = await api.get('/userStoryType')
+    const { data } = await userstoryController.listTypes()
     items.value = data
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/userStoryType/${id}/`)
+    const { data } = await userstoryController.deleteType(id)
     await fetchItems()
 }
 

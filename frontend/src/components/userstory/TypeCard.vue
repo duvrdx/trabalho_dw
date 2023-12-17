@@ -2,7 +2,7 @@
 import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import EpicTypeTable from '@/components/epic/TypeTable.vue'
-import api from '@api'
+import userstoryController from '@/controllers/userstory'
 
 
 
@@ -46,7 +46,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/userStoryType/', {
+    const { data } = await userstoryController.registerType({
 	description: description.value,
 	epicTypeId: epicType.value.id
     })
@@ -57,7 +57,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/userStoryType/${props.id}/`, {
+    const { data } = await userstoryController.updateType(id, {
 	description: description.value,
 	epicTypeId: epicType.value.id
     })
@@ -69,7 +69,7 @@ async function update() {
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/userStoryType/${props.id}`)
+    const { data } = await userstoryController.getType(id)
     description.value = data.description
     epicType.value = data.epicType
 })

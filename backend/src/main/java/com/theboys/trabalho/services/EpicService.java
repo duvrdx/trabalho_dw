@@ -20,7 +20,6 @@ import java.util.UUID;
 
 @Service
 public class EpicService {
-
     @Autowired
     private EpicRepository repository;
 

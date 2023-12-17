@@ -2,7 +2,7 @@
 import { ref, onBeforeMount, watch } from 'vue'
 import TypeCard from '@/components/task/TypeCard.vue'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import api from '@api'
+import taskController from '@/controllers/task'
 
 
 
@@ -36,12 +36,12 @@ function updateModelValue(newVal) {
 }
 
 async function fetchItems() {
-    const { data } = await api.get('/taskType')
+    const { data } = await taskController.listTypes()
     updateModelValue(data)
 }
 
 async function deleteItem(id) {
-    const { data } = await api.delete(`/taskType/${id}/`)
+    const { data } = await taskController.deleteType(id)
     await fetchItems()
 }
 

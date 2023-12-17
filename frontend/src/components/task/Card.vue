@@ -3,7 +3,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import TypeTable from '@/components/task/TypeTable.vue'
 import UserStoryTable from '@/components/userstory/Table.vue'
-import api from '@api'
+import taskController from '@/controllers/task'
 
 
 
@@ -79,7 +79,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/task/', {
+    const { data } = await taskController.register({
 	title: title.value,
 	description: description.value,
 	taskTypeId: type.value.id,
@@ -94,7 +94,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/task/${props.id}/`, {
+    const { data } = await projectController.update(props.id, {
 	title: title.value,
 	description: description.value,
 	taskTypeId: type.value.id,
@@ -108,7 +108,7 @@ onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
 	
-    const { data } = await api.get(`/task/${props.id}`)
+    const { data } = await taskController.getItem(props.id)
     if(!data)
 	throw new Error(`nao foi possivel encontrar tarefa com id ${props.id}`)
     title.value = data.title

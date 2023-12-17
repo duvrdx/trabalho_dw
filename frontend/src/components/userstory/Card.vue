@@ -3,7 +3,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { requiredField } from '@/utils/validation'
 import EpicTable from '@/components/epic/Table.vue'
 import TypeTable from '@/components/userstory/TypeTable.vue'
-import api from '@api'
+import userstoryController from '@/controllers/userstory'
 
 
 
@@ -53,7 +53,7 @@ async function register() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.post('/userStory/', {
+    const { data } = await userstoryController.register({
 	description: description.value,
 	title: title.value,
 	relevance: relevance.value,
@@ -67,8 +67,7 @@ async function update() {
 	console.error('dados invalidos do formulario')
 	return
     }
-    const { data } = await api.put(`/userStory/${props.id}/`, {
-	id: props.id,
+    const { data } = await userstoryController.update(props.id, {
 	description: description.value,
 	title: title.value,
 	relevance: relevance.value,
@@ -83,7 +82,7 @@ async function update() {
 onBeforeMount(async () => {
     if(!['edit', 'readonly'].includes(props.mode) || !props.id)
 	return
-    const { data } = await api.get(`/userStory/${props.id}`)
+    const { data } = await userstoryController.getItem(props.id)
     title.value = data.title
     description.value = data.description
     relevance.value = data.relevance

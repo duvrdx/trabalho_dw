@@ -29,7 +29,7 @@ public class TrabalhoApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry
 					.addMapping("/**")
-					.allowedOrigins("http://localhost:3000")
+					.allowedOrigins("http://frontend:80")
 					.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
 		};
