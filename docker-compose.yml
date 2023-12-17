@@ -14,12 +14,14 @@ services:
     container_name: spring_dw
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./backend/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
       - postgres
     environment:
-      - from: .env
+      DB_URL: jdbc:postgresql://postgres:5432/postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     volumes:
-      - ./src:/app/src  # Mapeie o diretório de código-fonte local para o contêiner
+      - ./src:/app/src

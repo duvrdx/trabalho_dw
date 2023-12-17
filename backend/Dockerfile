@@ -1,8 +1,8 @@
 # Estágio 1: Construir o aplicativo com Maven
 FROM maven:3.8.3-openjdk-17 AS builder
 
-COPY pom.xml /app/
-COPY src /app/src/
+COPY ./backend/pom.xml /app/
+COPY ./backend/src /app/src/
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN mvn clean package
 FROM openjdk:17-jdk-slim
 
 COPY --from=builder /app/target/trabalho-0.0.1-SNAPSHOT.jar /app/app.jar
-COPY src /app/src/
+COPY /backend/src /app/src/
 
 WORKDIR /app
 
